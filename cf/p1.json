@@ -1,0 +1,22 @@
+[
+  {
+    "ParameterKey": "sgdistelliinstance",
+    "ParameterValue": "sg-6a5c670e"
+  },
+  {
+    "ParameterKey": "subnetdistelli",
+    "ParameterValue": "subnet-b683ba8c"
+  },
+  {
+    "ParameterKey": "distellirole",
+    "ParameterValue": ""
+  },
+  {
+    "ParameterKey": "InstanceType",
+    "ParameterValue": "t2.micro"
+  },
+  {
+    "ParameterKey": "keyname",
+    "ParameterValue": "distelli-alpha"
+  }
+]

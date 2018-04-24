@@ -1,0 +1,72 @@
+bmcgehee/web-server-1: 
+  # Distelli Manifest example
+  
+  PreBuild:       
+    # Add any build pre-requisites here (This is a change)
+    - echo "---PreBuild---"
+    - echo "Installing NVM"
+    - curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.32.1/install.sh | bash
+    
+  Build:
+    # Enter your build steps here!
+    # use nvm (node version manager)
+    - source ~/.nvm/nvm.sh
+    # Install node v6.9.4
+    - nvm install v6.9.4
+    # install latest npm version globally 
+    - npm install npm -g   
+    - echo "---Building---"   
+    - npm install 
+    - echo "--Testing--"
+    #- npm test
+    
+  PkgInclude:
+    - '*'
+
+  ###Below is deployment phases   
+  
+  Env:
+    # Set any environment variables in this section.   
+    # These are available during all phases of a deploy.
+    - PORT: "3000"
+    - DISTELLI_INSTALLVIEW: "templates/notset.json"
+    - PATH: "/usr/local/bin:$PATH"
+    - DISTELLI_TMP_FILENAME: "$DISTELLI_INSTALLHOME/DISTELLI.$DISTELLI_BUILDNUM.$DISTELLI_RELVERSION.tmp"
+ 
+  InstallTemplates:
+    - views/index.pug
+
+  PreInstall:  
+    # Use this section to install any deployment pre-requisites.
+    - echo "---PreInstall---"
+    - START=$(date +%s)
+    - echo "$START" > "$DISTELLI_TMP_FILENAME"
+    - echo "--Installing deploy dependencies--"
+    - curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.2/install.sh | bash
+    - source ~/.nvm/nvm.sh
+    - nvm install v6.9.4    
+ 
+  PostInstall:
+    - echo "---PostInstall---"
+
+  PreStart:
+    - echo "---PreStart---"
+ 
+  Exec:
+    - source ~/.nvm/nvm.sh
+    - nvm use v6.9.4
+    - node app.js 
+     
+  PostStart:
+    - publicip=$(curl -s ident.me) || true
+    - privateip=$(hostname -i)
+    - 'echo "You can validate the install by pointing your browser at http://$publicip:$PORT"'
+    - 'echo "or maybe http://$privateip:$PORT"'
+    - START=$(cat $DISTELLI_TMP_FILENAME)
+    - rm "$DISTELLI_TMP_FILENAME"
+    - END=$(date +%s)
+    - echo $((END-START)) | awk '{printf " This deploy took %02d minutes and %02d seconds\n",int($1/60), int($1%60)}'
+     
+
+
+
