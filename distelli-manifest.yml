@@ -33,8 +33,6 @@ bmcgehee/web-server-1:
 
   ###Below is deployment phases   
   
-  PostInstall:
-    - exit 8
      
   Start:
     - 'if [[ "${DISTELLI_ENV: -6}" == "create" ]]; then'
