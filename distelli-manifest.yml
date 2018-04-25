@@ -24,8 +24,8 @@ bmcgehee/web-server-1:
     - if [ -z stack-name]; then
     -   stack-name="$DISTELLI_APPNAME"
     - fi
-    - echo "aws cloudformation create-stack --stack-name $stack-name  --parameters file://$PWD/cf/$parameters_file --template-body file://$PWD/cf/$cf_template" > cf/create_stack.sh
-    - echo "aws cloudformation delete-stack --stack-name $stack-name" > cf/teardown_stack.sh
+    - echo "aws cloudformation create-stack --stack-name \"$stack-name\" --parameters file://cf/$parameters_file --template-body file://cf/$cf_template" > cf/create_stack.sh
+    - echo "aws cloudformation delete-stack --stack-name \"$stack-name\"" > cf/teardown_stack.sh
 
     
   PkgInclude:
