@@ -19,7 +19,7 @@ bmcgehee/web-server-1:
     - echo "\n---Building---\n"   
     - npm install 
     - echo "\n=Processing Cloudformation templates=\n"
-    - echo "[{\"ParameterKey\": \"sgdistelliinstance\",\"ParameterValue\": \"sg-6a5c670e\"},{\"ParameterKey\": \"subnetdistelli\",\"ParameterValue\": \"subnet-b683ba8c\"},{\"ParameterKey\": \"distellirole\",\"ParameterValue\": \"\"},{\"ParameterKey\": \"InstanceType\",\"ParameterValue\": \"t2.micro\"},{\"ParameterKey\": \"keyname\",\"ParameterValue\": \"distelli-alpha\"}]" > cf/parameters.json
+    - 'echo "[{\"ParameterKey\": \"sgdistelliinstance\",\"ParameterValue\": \"sg-6a5c670e\"},{\"ParameterKey\": \"subnetdistelli\",\"ParameterValue\": \"subnet-b683ba8c\"},{\"ParameterKey\": \"distellirole\",\"ParameterValue\": \"\"},{\"ParameterKey\": \"InstanceType\",\"ParameterValue\": \"t2.micro\"},{\"ParameterKey\": \"keyname\",\"ParameterValue\": \"distelli-alpha\"}]" > cf/parameters.json'
 
     
   PkgInclude:
