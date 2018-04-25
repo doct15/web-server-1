@@ -10,15 +10,17 @@ bmcgehee/web-server-1:
   Build:
     # Enter your build steps here!
     # use nvm (node version manager)
+    - echo "\n=Getting ready to build application=\n"
     - source ~/.nvm/nvm.sh
     # Install node v6.9.4
     - nvm install v6.9.4
     # install latest npm version globally 
     - npm install npm -g   
-    - echo "---Building---"   
+    - echo "\n---Building---\n"   
     - npm install 
-    - echo "--Testing--"
-    #- npm test
+    - echo "\n=Processing Cloudformation templates=\n"
+    - echo "[{\"ParameterKey\": \"sgdistelliinstance\",\"ParameterValue\": \"sg-6a5c670e\"},{\"ParameterKey\": \"subnetdistelli\",\"ParameterValue\": \"subnet-b683ba8c\"},{\"ParameterKey\": \"distellirole\",\"ParameterValue\": \"\"},{\"ParameterKey\": \"InstanceType\",\"ParameterValue\": \"t2.micro\"},{\"ParameterKey\": \"keyname\",\"ParameterValue\": \"distelli-alpha\"}]" > cf/parameters.json
+
     
   PkgInclude:
     - '*'
