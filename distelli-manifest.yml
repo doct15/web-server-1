@@ -1,29 +1,16 @@
 bmcgehee/web-server-1: 
-  # Distelli Manifest example
-  
-  PreBuild:       
-    # Add any build pre-requisites here (This is a change)
-    ##- echo "---PreBuild---"
-    ##- echo "Installing NVM"
-    ##- curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.32.1/install.sh | bash
+  # Pipelines Manifest example
+  # ---
+  # Using Cloudformation templates
     
   Build:
-    # Enter your build steps here!
-    # use nvm (node version manager)
-    ##- echo "\n=Getting ready to build application=\n"
-    ##- source ~/.nvm/nvm.sh
-    # Install node v6.9.4
-    ##- nvm install v6.9.4
-    # install latest npm version globally 
-    ##- npm install npm -g   
-    ##- echo "\n---Building---\n"   
-    ##- npm install 
     - echo "\n=Processing Cloudformation templates=\n"
     - echo " Using build env variables to populate cf template parameters "
     - 'echo "[{\"ParameterKey\": \"sgdistelliinstance\",\"ParameterValue\": \"$sgdistelliinstance\"},{\"ParameterKey\": \"subnetdistelli\",\"ParameterValue\": \"$subnetdistelli\"},{\"ParameterKey\": \"distellirole\",\"ParameterValue\": \"$distellirole\"},{\"ParameterKey\": \"InstanceType\",\"ParameterValue\": \"$InstanceType\"},{\"ParameterKey\": \"keyname\",\"ParameterValue\": \"$keyname\"}]" > cf/$parameters_file'
-    - if [ -z "$stack-name" ]; then
-    -   stack-name="$DISTELLI_APPNAME"
+    - if [ -z "$stack_name" ]; then
+    -   stack_name="$DISTELLI_APPNAME"
     - fi
+    - stack_name="$stack_name$(date +%Y-%m-%d_%H-%M-%S)"
     - echo "aws cloudformation create-stack --stack-name \"$stack_name\" --parameters file://cf/$parameters_file --template-body file://cf/$cf_template" > cf/create_stack.sh
     - echo "aws cloudformation delete-stack --stack-name \"$stack_name\"" > cf/teardown_stack.sh
 
@@ -33,12 +20,23 @@ bmcgehee/web-server-1:
 
   ###Below is deployment phases   
   
+  PreInstall:
+    - if [ -f $DISTELLI_APPHOME/cf/teardown_stack.sh ]; then
+    -   echo "Preping previous teardown script."
+    -   cp $DISTELLI_APPHOME/cf/teardown_stack.sh $DISTELLI_INSTALLHOME/old_teardown_stack.sh
+    - else
+    -   echo "There is no previous stack."
+    -   rm -f $DISTELLI_INSTALLHOME/old_teardown_stack.sh
+    - fi
      
   Start:
     - 'if [[ "${DISTELLI_ENV: -6}" == "create" ]]; then'
     -   echo "==Creating Stack=="
+    -   sh cf/create_stack.sh
     - 'elif [[ "${DISTELLI_ENV: -8}" == "teardown" ]]; then'
     -   echo "==Teardown Stack=="
+    -   cp $DISTELLI_INSTALLHOME/old_teardown_stack.sh cf/
+    -   sh cf/old_teardown_stack.sh
     - 'elif [[ "${DISTELLI_ENV: -7}" == "flipdns" ]]; then'
     -   echo "==Flip DNS=="
     - fi
