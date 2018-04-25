@@ -21,7 +21,7 @@ bmcgehee/web-server-1:
     - echo "\n=Processing Cloudformation templates=\n"
     - echo " Using build env variables to populate cf template parameters "
     - 'echo "[{\"ParameterKey\": \"sgdistelliinstance\",\"ParameterValue\": \"$sgdistelliinstance\"},{\"ParameterKey\": \"subnetdistelli\",\"ParameterValue\": \"$subnetdistelli\"},{\"ParameterKey\": \"distellirole\",\"ParameterValue\": \"$distellirole\"},{\"ParameterKey\": \"InstanceType\",\"ParameterValue\": \"$InstanceType\"},{\"ParameterKey\": \"keyname\",\"ParameterValue\": \"$keyname\"}]" > cf/$parameters_file'
-    - if [ -z stack-name]; then
+    - if [ -z "$stack-name" ]; then
     -   stack-name="$DISTELLI_APPNAME"
     - fi
     - echo "aws cloudformation create-stack --stack-name \"$stack-name\" --parameters file://cf/$parameters_file --template-body file://cf/$cf_template" > cf/create_stack.sh
