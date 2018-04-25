@@ -40,10 +40,11 @@ bmcgehee/web-server-1:
     - ls -l $DISTELLI_INSTALLHOME
     - ls -l $DISTELLI_APPHOME
     -   if [ -f $DISTELLI_INSTALLHOME/old_teardown_stack.sh ]; then
+    -     echo "Old teardown exists"
     -     cp $DISTELLI_INSTALLHOME/old_teardown_stack.sh cf/
     -     sh cf/old_teardown_stack.sh
     -   else
-    -   echo "No previous stack deployed."
+    -     echo "No previous stack deployed."
     - fi
     - 'elif [[ "${DISTELLI_ENV: -7}" == "flipdns" ]]; then'
     -   echo "==Flip DNS=="
