@@ -1,7 +1,7 @@
 bmcgehee/web-server-1: 
   # Pipelines Manifest example
   # ---
-  # Using Cloudformation templates
+  # Using Cloudformation templates 
     
   Build:
     - echo "\n=Processing Cloudformation templates=\n"
